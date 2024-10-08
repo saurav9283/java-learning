@@ -42,23 +42,22 @@ public class secondLowestSalaryEmployee {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         int n = sc.nextInt();
-        sc.nextLine(); // Consume newline
+        sc.nextLine(); 
         Employee[] emp = new Employee[n];
 
         // Input employee details
         for (int i = 0; i < n; i++) {
             int id = sc.nextInt();
-            sc.nextLine(); // Consume newline after integer input
+            sc.nextLine(); 
             String name = sc.nextLine();
             int age = sc.nextInt();
             char gender = sc.next().charAt(0);
             double salary = sc.nextDouble();
-            sc.nextLine(); // Consume newline after double input
+            sc.nextLine(); 
 
             emp[i] = new Employee(id, name, age, gender, salary);
         }
 
-        // Read the age to find employees based on age
         int age = sc.nextInt();
 
         // Get employee with second lowest salary
