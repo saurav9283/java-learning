@@ -81,8 +81,23 @@ public class secondLowestSalaryEmployee {
         if (emp.length < 2) {
             return null;
         }
-        Arrays.sort(emp, Comparator.comparingDouble(Employee::getSalary));
-        return emp[1];
+        // Arrays.sort(emp, Comparator.comparingDouble(Employee::getSalary));
+        // return emp[1];
+        Employee first = null;
+        Employee second = null;
+        for(Employee employee:emp)
+        {
+            if(first == null || employee.getSalary() < first.getSalary())
+            {
+                second = first;
+                first = employee;
+            }
+            else if(second == null || employee.getSalary() < second.getSalary())
+            {
+                second = employee;
+            }
+        }
+        return second;
     }
 
     public static int countEmployeesBasedOnAge(Employee[] emp, int age) {
