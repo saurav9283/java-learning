@@ -77,6 +77,9 @@ public class IPA6Solution{
             System.out.println(highestPriorityTicket.getraisedBy());
             System.out.println(highestPriorityTicket.getassignedTo());
         }
+        else{
+            System.out.println("No such ticket.");
+        }
 
     }
 }
