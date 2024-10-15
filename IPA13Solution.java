@@ -71,10 +71,10 @@ public  class IPA13Solution{
                 rating = (car.getnoOfTestsPassed()*100)/car.getnoOfTestsConducted();
                 if(rating >= 80)
                 {
-                    System.out.println(car.getbrand()+"::A1");
+                    car.setgrade("A1");
                 }
                 else{
-                    System.out.println(car.getbrand()+"::B2");
+                    car.setgrade("B2");
                 }
                 return car;
             }
