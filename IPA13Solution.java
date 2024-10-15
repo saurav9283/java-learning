@@ -71,10 +71,10 @@ public  class IPA13Solution{
                 rating = (car.getnoOfTestsPassed()*100)/car.getnoOfTestsConducted();
                 if(rating >= 80)
                 {
-                    System.out.println(car.getbrand()+"::A");
+                    System.out.println(car.getbrand()+"::A1");
                 }
                 else{
-                    System.out.println(car.getbrand()+"::B");
+                    System.out.println(car.getbrand()+"::B2");
                 }
                 return car;
             }
@@ -109,7 +109,7 @@ public  class IPA13Solution{
 
         AutonomousCar newcar = updateCarGrade(car,search);
         if (newcar != null) {
-            System.out.println("Updated car grade for brand " + search + ": " + newcar.getgrade());
+            System.out.println(search + "::" + newcar.getgrade());
         } else {
             System.out.println("No car found with brand " + search);
         }
