@@ -40,6 +40,10 @@ public class IPA21Solution{
                 list.add(fruit);
             }
         }
+        if(list.isEmpty())
+        {
+            return null;
+        }
         list.sort(Comparator.comparingInt(Fruits::getprice));
         return list.get(list.size()-1);
     }
