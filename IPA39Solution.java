@@ -28,7 +28,7 @@ class Vegetable {
     public int getRating() {
         return Rating;
     }
-}
+} 
 
 public class IPA39Solution {
     public static Vegetable findMinimumPriceByRating(Vegetable[] vegitables, int find) {
