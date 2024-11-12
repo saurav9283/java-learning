@@ -41,15 +41,13 @@ class TravelAgencies{
 public class IPA32Solution{
     public static TravelAgencies findAgencyWithHighestPackagePrice(TravelAgencies[] travels)
     {
-        TravelAgencies maxi = null;
+        List<TravelAgencies> list = new ArrayList<>();
         for(TravelAgencies travel: travels)
         {
-            if(maxi == null || travel.getprice() > maxi.getprice())
-            {
-                maxi = travel;
-            }
+            list.add(travel);
         }
-        return maxi;
+        list.sort(Comparator.comparingInt(TravelAgencies::getprice));
+        return list.get(list.size()-1);
     }
 
     public static TravelAgencies agencyDetailsForGivenldAndType(TravelAgencies[] travels, int find, String findString)
