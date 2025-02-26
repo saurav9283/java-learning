@@ -1,153 +1,101 @@
 package PRA;
+
 import java.util.*;
 
-class PriceisNegativeException extends Exception{
-    public PriceisNegativeException(String message)
-    {
-        super(message);
+class TVSeries {
+    private int SeriesID;
+    private String SeriesName;
+    private int TRP;
+
+    public TVSeries(int SeriesID, String SeriesName, int TRP) {
+        this.SeriesID = SeriesID;
+        this.SeriesName = SeriesName;
+        this.TRP = TRP;
+    }
+
+    public int getSeriesID() {
+        return SeriesID;
+    }
+
+    public String getSeriesName() {
+        return SeriesName;
+    }
+
+    public void setTRP(int trp) {
+        this.TRP = trp;
+    }
+
+    public int getTRp() {
+        return TRP;
     }
 }
 
-class Cycle{
-    private int cycleId;
-    private String cycleName;
-    private int price;
-    public Cycle(int cycleId,String cycleName,int price) throws PriceisNegativeException
-    {
-        if(price < 0)
-        {
-            throw new PriceisNegativeException("Invalid Price: Price cannot be negative.");
-        }
-        this.cycleId = cycleId;
-        this.cycleName = cycleName;
-        this.price = price;
+class TRPTracker {
+    public void updateTRP(TVSeries series, int view) {
+        int increment = view / 5000;
+        series.setTRP(series.getTRp() + increment);
     }
-    public int getcycleId()
-    {
-        return cycleId;
-    }
-    public String getcycleName()
-    {
-        return cycleName;
-    }
-    public int getprice()
-    {
-        return price;
-    }
-}
 
-class Customer{
-    private int customerId;
-    private String customerName;
-    private int noofcycles;
-    private List<Cycle> cycles;
-    public Customer(int customerId,String customerName, int noofcycles,List<Cycle> cycles)
-    {
-        this.customerId = customerId;
-        this.customerName = customerName;
-        this.noofcycles = noofcycles;
-        this.cycles = cycles;
-    }
-    public int getCustomerId()
-    {
-        return customerId;
-    }
-    public String getcustomerName()
-    {
-        return customerName;
-    }
-    public int getnoofcycles()
-    {
-        return noofcycles;
-    }
-    public List<Cycle> getCycleList()
-    {
-        return cycles;
-    }
-}
-
-class Service{
-    public void CalculateTotalPriceByCycleName(List<Customer> customers,String findName)
-    {
-        int total = 0;
-        for(Customer c:customers)
-        {
-            for(Cycle cy:c.getCycleList())
-            {
-                if(cy.getcycleName().equalsIgnoreCase(findName))
-                {
-                    total += cy.getprice();
-                }
-            }
-        }
-        if(total == 0)
-        {
-            System.out.println("No cycle found with mentioned name.");
-        }
-        else{
-            System.out.println(total);
-        }
-    }
-    public List<String> findCustomerNamesOfCyclesByPrice(List<Customer> customers, int findPrice)
-    {
-        List<String> ans = new ArrayList<>();
-        for(Customer c:customers)
-        {
-            for(Cycle cy:c.getCycleList())
-            {
-                if(cy.getprice() > findPrice)
-                {
-                    ans.add(c.getcustomerName());
-                }
-            }
-        }
-        return ans;
-
-    }
-}
-
-public class PRA23{
-    public static void main(String[] args)
-    {
-        Scanner sc =new Scanner(System.in);
-        int noOfCumtomer = sc.nextInt();sc.nextLine();
-        List<Customer> customersList = new ArrayList<>();
-        for(int i = 0; i < noOfCumtomer; i++)
-        {
-            int customerId = sc.nextInt();sc.nextLine();
-            String customerName = sc.nextLine();
-            int noofcycles = sc.nextInt();
-            List<Cycle> cyclesList = new ArrayList<>();
-            for(int j = 0; j < noofcycles; j++)
-            {
-                int cycleId = sc.nextInt();sc.nextLine();
-                String cycleName = sc.nextLine();
-                int price = sc.nextInt();sc.nextLine();
-                try {
-                    cyclesList.add(new Cycle(cycleId,cycleName,price));
-                } catch (PriceisNegativeException e) {
-                    System.out.println(e.getMessage());
-                }
-            }
-            customersList.add(new Customer(customerId,customerName,noofcycles,cyclesList));
-
-        }
-        String findName =sc.nextLine();
-        int findPrice = sc.nextInt();sc.nextLine();
-
-        Service service = new Service();
-        service.CalculateTotalPriceByCycleName(customersList,findName);
-        List<String> ansList = service.findCustomerNamesOfCyclesByPrice(customersList,findPrice);
-        if(ansList.isEmpty())
-        {
-            System.out.println("No matching customers found.");
-        }
-        else{
-            for(String s:ansList)
-            {
-                System.out.println(s);
+    public void simulateTRP(ArrayList<TVSeries> Serieslist, int seriesId, int view) {
+        for (TVSeries t : Serieslist) {
+            if (t.getSeriesID() == seriesId) {
+                updateTRP(t, view);
+                break;
             }
         }
     }
 
+    public void displayTVSeriesStats(TVSeries s) {
+        System.out.println("Series ID: " + s.getSeriesID());
+        System.out.println("Series Name: " + s.getSeriesName());
+        System.out.println("TRP: " + s.getTRp());
+        System.out.println();
+    }
+}
+
+public class PRA23 {
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        ArrayList<TVSeries> tvSeries = new ArrayList<>();
+        TRPTracker tracker = new TRPTracker();
+
+        while (true) {
+            System.out.println("Enter the serial Number");
+            int id = sc.nextInt();
+            sc.nextLine();
+            System.out.println("Enter the serial Name");
+            String name = sc.nextLine();
+            System.out.println("Enter valid TRP");
+            int TRp = sc.nextInt();
+            sc.nextLine();
+
+            tvSeries.add(new TVSeries(id, name, TRp));
+
+            System.out.println("Do you want to add more series");
+            char choice = sc.next().charAt(0);
+            if (choice == 'n' || choice == 'N') {
+                break;
+            }
+        }
+
+        System.out.println("Enter the simulation number");
+        int n = sc.nextInt();sc.nextLine();
+
+        for (int i = 0; i < n; i++) {
+            System.out.print("Enter Series ID for simulation: ");
+            int seriesId1 = sc.nextInt();
+            sc.nextLine();
+
+            System.out.print("Enter Series ID view");
+            int views = sc.nextInt();
+            sc.nextLine();
+            tracker.simulateTRP(tvSeries, seriesId1, views);
+        }
+
+        // displayTVSeriesStats(TVSeries);
+        for (TVSeries x : tvSeries) {
+            tracker.displayTVSeriesStats(x);
+        }
+    }
 }
