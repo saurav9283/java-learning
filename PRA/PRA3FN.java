@@ -1,5 +1,4 @@
 package PRA;
-
 import java.util.*;
 
 class Politician {
@@ -73,11 +72,27 @@ class Service {
         for(Region r:listRegion)
         {
             List<Politician> politicians = r.getlistPolitician();
-            Politician maxVotePolitician = Collections.max(politicians, Comparator.comparing(Politician::getVotes));
-            System.out.println(r.getregionName() + " with " + r.getregionId() + " = " + maxVotePolitician.getPoliticianName());
+            politicians.sort(Comparator.comparing(Politician::getVotes).reversed());
+            
+            int maxvalue = politicians.get(0).getVotes();
+            int count = 0;
+            for(Politician p: politicians)
+            {
+                if(maxvalue == p.getVotes())
+                {
+                    count++;
+                }
+            }
+            if (count > 1) {
+                System.out.println("No single politician found with maximum votes for " + r.getregionName());
+            } else {
+                System.out.println(r.getregionName() + " with " + r.getregionId() + " = " + politicians.get(0).getPoliticianName());
+            }
         }
     }
-
+    
+    // Politician maxVotePolitician = Collections.max(politicians, Comparator.comparing(Politician::getVotes));
+    // System.out.println(r.getregionName() + " with " + r.getregionId() + " = " + maxVotePolitician.getPoliticianName());
     public void MaximumVotesForWhichRegion(List<Region> listRegion)
     {
         String regionName = "";
